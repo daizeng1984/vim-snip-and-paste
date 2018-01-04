@@ -1,0 +1,17 @@
+*vim-snip-and-paste.txt* A template of a remote Python plugin.
+
+                  Snip-n-Paste Remote Python Plugin
+
+==============================================================================
+
+CONTENTS                                 *vim-snip-and-paste*
+
+    1. Introduction .................... |vim-snip-and-paste-intro|
+
+
+Original Author:    Zeng Dai
+License:            The Unlicense
+
+INTRODUCTION                                *vim-snip-and-paste-intro*
+
+TODO
