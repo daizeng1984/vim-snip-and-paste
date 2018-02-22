@@ -32,6 +32,7 @@ def save_clipboard_image_mac(output_folder, output_image_filename):
     if matchimage.search(res):
         if not output_image_filename:
             output_image_filename = create_random_filename();
+        mkdir_p(output_folder);
         subprocess.Popen(("pngpaste", output_folder + "/" + output_image_filename));
         return (output_image_filename, "pngpaste this image as: " + output_folder + "/" + output_image_filename);
     else:
