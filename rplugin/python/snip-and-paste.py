@@ -21,50 +21,29 @@ def mkdir_p(path):
         else:
             raise
 
-# TODO: Consider use pygobj on mac and window?
-if platform == "linux" or platform == "linux2":
+if platform == "linux" or platform == "linux2" or platform == "darwin" or platform == "windows":
     import gi
     gi.require_version('Gtk', '3.0')
     from gi.repository import Gtk, Gdk
-    def check_clipboard_image_and_type_linux():
+    def check_clipboard_image_and_type_gtk():
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         image = clipboard.wait_for_image()
         return image is not None
 
-    def extract_file_name_from_clipboard_linux():
+    def extract_file_name_from_clipboard_gtk():
         text = clipboard.wait_for_text()
         if text is not None:
             image_file = text
             image_name = os.path.basename(image_file);
         return (image_file, image_name)
 
-    def save_clipbpard_image_linux(path):
+    def save_clipbpard_image_gtk(path):
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         image = clipboard.wait_for_image()
         if image is not None:
             image.savev(path, 'png', [], [])
-    
-
-elif platform == "darwin":
-    def check_clipboard_image_and_type_mac():
-        matchimage = re.compile(r'(class\s+PNGf)|(class\s+PNG)|(class\s+8BPS)|(class\s+jp2)|(class\s+BMP)|(class\s+TPIC)', re.UNICODE);
-        check = subprocess.Popen(("osascript", "-e", "clipboard info", "2&>1" ), stdout=subprocess.PIPE)
-        res = check.stdout.read().decode("utf-8");
-        return matchimage.search(res) is not None
-        
-    def extract_file_name_from_clipboard_mac():
-        pb = subprocess.Popen(("pbpaste"), stdout=subprocess.PIPE);
-        image_file = pb.stdout.read().decode("utf-8");
-        image_name = os.path.basename(image_file);
-        return (image_file, image_name)
-        
-    def save_clipbpard_image_mac(path):
-        subprocess.Popen(("pngpaste", path));
-elif platform == "win32":
-    pass
-
-    
-
+else:
+    raise Exception("Platform unknown!")
 
 def save_clipboard_image(output_folder, output_image_filename, check_clipboard_image_and_type, save_clipbpard_image, extract_file_name_from_clipboard):
     basename, extname = os.path.splitext(output_image_filename);
@@ -107,12 +86,10 @@ class Main(object):
         afolder = os.path.dirname(apath);
         img_folder = '/.snip-img.' + (os.path.basename(apath)) + '/';
         output_folder = afolder + img_folder;
-        if platform == "linux" or platform == "linux2":
-            image_name, desc = save_clipboard_image(output_folder, "", check_clipboard_image_and_type_linux, save_clipbpard_image_linux, extract_file_name_from_clipboard_linux);
-        elif platform == "darwin":
-            image_name, desc = save_clipboard_image(output_folder, "", check_clipboard_image_and_type_mac, save_clipbpard_image_mac, extract_file_name_from_clipboard_mac);
+        if platform == "linux" or platform == "linux2" or platform == "darwin" or platform == "windows":
+            image_name, desc = save_clipboard_image(output_folder, "", check_clipboard_image_and_type_gtk, save_clipbpard_image_gtk, extract_file_name_from_clipboard_gtk);
         elif platform == "win32":
-            image_name, desc = (None, "We don't support windows at this point!")
+            image_name, desc = (None, "We don't support this platform at this point!")
         
         self.vim.command('echo "' + desc + '"');
         if image_name:
