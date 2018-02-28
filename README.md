@@ -1,6 +1,8 @@
 ## Introduction
 It's a breaking workflow when I need to take a picture of screen (to clipboard), save it into somewhere and link it before starting to write something in markdown. This plugin is to fix that for vim users. It can also do the same job for image file if you have its absolute path in clipboard!
 
+## Screenshot
+![snip-n-paste](./snip-n-paste.gif)
 ## Before PlugInstall
 - Python working for neovim
 - For Mac OSX user, simply `brew install pygobject3 --with-python3 gtk+3` (both python2 and python3)
