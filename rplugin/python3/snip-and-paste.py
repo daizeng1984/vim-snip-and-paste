@@ -24,13 +24,15 @@ def mkdir_p(path):
 if platform == "linux" or platform == "linux2" or platform == "darwin" or platform == "windows":
     import gi
     gi.require_version('Gtk', '3.0')
-    from gi.repository import Gtk, Gdk
     def check_clipboard_image_and_type_gtk():
+        from gi.repository import Gtk, Gdk
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         image = clipboard.wait_for_image()
         return image is not None
 
     def extract_file_name_from_clipboard_gtk():
+        from gi.repository import Gtk, Gdk
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         text = clipboard.wait_for_text()
         if text is not None:
             image_file = text
@@ -38,6 +40,7 @@ if platform == "linux" or platform == "linux2" or platform == "darwin" or platfo
         return (image_file, image_name)
 
     def save_clipbpard_image_gtk(path):
+        from gi.repository import Gtk, Gdk
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         image = clipboard.wait_for_image()
         if image is not None:
@@ -88,7 +91,7 @@ class Main(object):
         output_folder = afolder + img_folder;
         if platform == "linux" or platform == "linux2" or platform == "darwin" or platform == "windows":
             image_name, desc = save_clipboard_image(output_folder, "", check_clipboard_image_and_type_gtk, save_clipbpard_image_gtk, extract_file_name_from_clipboard_gtk);
-        elif platform == "win32":
+        else:
             image_name, desc = (None, "We don't support this platform at this point!")
         
         self.vim.command('echo "' + desc + '"');

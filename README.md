@@ -5,9 +5,9 @@ It's a breaking workflow when I need to take a picture of screen (to clipboard),
 ![snip-n-paste](./snip-n-paste.gif)
 ## Before PlugInstall
 - Python working for neovim
-- For Mac OSX user, simply `brew install pygobject3 --with-python3 gtk+3` (both python2 and python3)
-- For Linux user, simply install `pygobject` e.g. `yum install pygobject2` (python2)
-- For Windows user, good luck and follow [this](http://pygobject.readthedocs.io/en/latest/getting_started.html#windows-logo-windows) instruction
+- PyGObject and GTK:
+    - For conda user on *nix, simply do `conda install -c pkgw-forge -c conda-forge gtk3 pygobject`
+    - For non-conda user, go [here](https://pygobject.readthedocs.io/en/latest/getting_started.html#getting-started)
 
 ## Install
 ```
